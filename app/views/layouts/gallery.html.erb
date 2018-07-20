@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Template</title>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    'gallery', media: 'all' %>
+    <%= stylesheet_link_tag params[:controller], media: 'all' %>
+    <%= javascript_include_tag 'gallery' %>
+  </head>
+
+  <body class="expand-data panel-data">
+    <%= render 'shared/nav' %>
+    <%= render 'shared/sidebar' %>
+    <%= render 'shared/option_panel' %>
+    <%= yield %>
+    <%= yield 'javascript_content' %>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+
+
+var box = $("#outside_<%= @emoji.id %>");
+var state_info = $("#gallery_<%= @emoji.id %>");
+var current_id = parseInt(state_info.attr('id'));
+var a_tag = $("#state_<%= @emoji.id %>");
+
+if(box.hasClass('draft')){
+  state_info.removeClass('border border-light').addClass('border border-warning');
+  box.removeClass('draft').addClass('edit');
+  a_tag.attr("href", "<%= emoji_state_path(emoji_id: @emoji.id, state: 'finish') %>");
+} else if(box.hasClass('edit')){
+      state_info.removeClass('border border-warning').addClass('border border-primary');
+      box.removeClass('edit').addClass('finish');
+      a_tag.attr("href", "<%= emoji_state_path(emoji_id: @emoji.id, state: 'submit') %>");
+} else if(box.hasClass('finish')){
+      state_info.removeClass('border border-primary');
+      box.removeClass('finish').addClass('submit');
+      state_info.css("border", "3px solid #FF00FF");
+      a_tag.attr("href", "<%= emoji_state_path(emoji_id: @emoji.id, state: 'draft') %>");
+} else {
+      state_info.addClass('border border-light');
+      box.removeClass('submit').addClass('draft');
+      a_tag.attr("href", "<%= emoji_state_path(emoji_id: @emoji.id, state: 'edit') %>");
+      state_info.css("border", "");
+}
+
+
+var count = document.getElementsByClassName("submit").length;
+var percentage = Math.ceil((100/24)*count);
+
+
+$(".progress-bar").each(function(){
+  each_bar_width = percentage;
+  var pb = $(".progress-bar");
+  
+  pb.width(percentage + '%');
+  
+  var popover= pb.children();
+  
+  popover.attr("data-original-title",percentage);
+  pb.text(count + '/24');
+});

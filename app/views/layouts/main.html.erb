@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Template</title>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    'home', media: 'all' %>
+    <%= stylesheet_link_tag   params[:controller], media: 'all' %>
+    <%= javascript_include_tag 'home' %>
+  </head>
+
+  <body class="expand-data panel-data">
+    <%= render 'shared/flash_messages' %>
+    <%= yield %>
+    <%= yield 'javascript_content' %>
+  </body>
+</html>

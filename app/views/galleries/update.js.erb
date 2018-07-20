@@ -1,0 +1,10 @@
+$("#<%= @gallery.id %>").html(`
+<a id="gallery_<%= @gallery.id %>" style="width: 60px" href="<%= gallery_path(@gallery) %>"><%= @gallery.title %></a>
+<div class="d-flex justify-content-end">
+    <button type="submit" class="title_edit_pencil" id="<%= @gallery.id %>" style="background-color:transparent;">
+        <i class="fa fa-pencil" style="color: white"></i>
+    </button>
+    <%= link_to gallery_path(@gallery), method: "delete", data: { confirm: "정말로 삭제하시겠습니까? 삭제시 복구할 수 없습니다."}, remote: true do %>
+        <i class="fa fa-window-close"></i>
+    <% end %>
+</div>`)

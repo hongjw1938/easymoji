@@ -1,0 +1,278 @@
+<nav class="site-header sticky-top py-1" style="background-color: #fcd700;"> 
+<!--177ee6: 파란색 배경색상-->
+      <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <a class="py-2" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
+        </a>
+        <a class="py-2 d-none d-md-inline-block nav-link js-scroll-trigger" href="#introduction">About Us</a>
+        <a class="py-2 d-none d-md-inline-block" href="#start">how to start</a>
+        <a class="py-2 d-none d-md-inline-block" href="#Services">Service</a>
+        <a class="py-2 d-none d-md-inline-block" href="#Pricing">Pricing</a>
+        <a class="py-2 d-none d-md-inline-block" href="/guide">Guide</a>
+        <% if user_signed_in? %>
+          <%= link_to "LogOut", destroy_user_session_path, method: "delete", class: "py-2 d-none d-md-inline-block" %>
+          <%= link_to "MyPage", galleries_path, class: "py-2 d-none d-md-inline-block" %>
+        <% else %>
+          <%= link_to "Login", galleries_path, class: "py-2 d-none d-md-inline-block" %>
+        <% end %>
+        
+      </div>
+    </nav>
+<!--nav bar-->
+
+
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="<%= asset_path 'draft_1.jpg'%>" alt="First slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<!--carousel: introduction service -->
+
+<div id="introduction"></div>
+<hr class="featurette-divider">
+
+        <div class="container" id="#intro">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h1>'대충 그려, 작가 되자 !'</h1>
+                    <p>'EasyMoji'는 'Easy'+'Emoji'를 뜻하며, 이모티콘 제작과 제안을 돕는 플랫폼입니다.</p>
+                </div>
+            </div>
+            <br><br>
+            <div class="row features-block">
+                <div class="col-lg-6 text-center">
+                    <small>Help you be an Emoji Creator</small>
+                    <h3>우리가 도와줄게요</h3><br>
+                    <p>
+                    <h6>'대충 그려'가 의미하는 바는 '일단 부담없이 도전하라!'는 
+                    <br>뜻을 담은 'EasyMoji'의 슬로건 입니다.</h6>
+                    <br>
+                    망설이고 계시진 않았나요?
+                    <br>
+                    'EasyMoji'에서는 누.구.나. 도전할 수 있도록<br>그 첫 시작을 함께 하려고 합니다.
+                       <br>
+                    </p> <br>
+                    <a href="#" class="btn btn-warning text-white">함께해요</a>
+                </div>
+
+                <div class="col-lg-6 features-text">
+                    <img src="<%= asset_path 'bottletaste2.jpg'%>" alt="플랫폼별 통계 대시보드" class="responsive">
+                </div>
+            </div>
+        </div>
+<br><br>
+<!--기업 소개-->
+
+<div id="start"></div>
+<hr class="featurette-divider">
+
+<div class="container marketing">
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <br>
+            <h1>뭐부터 시작해야 될까요?</h1>
+            <p>'EasyMoji'에서는 Step.3만 기억하고 따라오세요!</p>
+        </div>
+    </div>
+</div>
+<br><br>
+<!-- Three columns of text below the carousel -->
+<div class="row" id="wrapper">
+  <div class="col-lg-4 text-center" id="wra">
+    <span class="fa-stack fa-4x">
+      <i class="fa fa-circle fa-stack-2x text-warning"></i>
+      <i class="fa fa-picture-o fa-stack-1x fa-inverse"></i>
+    </span>
+    <!--<img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">-->
+    <h2>Step.1</h2>
+    <h3>손그림을 준비하자</h3><br>
+    <p>하얀색 종이에 손으로 그림을 그리거나,
+      <br> 마우스로 쓱쓱 그림을 그립니다.</p>
+    <!--<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>-->
+  </div><!-- /.col-lg-4 -->
+  <div class="col-lg-4 text-center">
+    <span class="fa-stack fa-4x">
+      <i class="fa fa-circle fa-stack-2x text-warning"></i>
+      <i class="fa  fa-desktop fa-stack-1x fa-inverse"></i>
+    </span>
+    <h2>Step.2</h2>
+    <h3>EasyMoji 서비스 사용</h3><br>
+    <p>이모티콘 제안서 제출의 가장 중요한 요건,
+    <br>배경제거를 EasyMoji tool을 통해<br>몇 번의 클릭만으로 완성합니다.</p>
+    <!--<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>-->
+  </div><!-- /.col-lg-4 -->
+  <div class="col-lg-4 text-center" >
+    <span class="fa-stack fa-4x">
+      <i class="fa fa-circle fa-stack-2x text-warning"></i>
+      <i class="fa fa-file-text fa-stack-1x fa-inverse"></i>
+    </span>
+    
+    <h2>Step.3</h2>
+    <h3>제안서 작성</h3><br>
+    <p>제안서 작성만 해주시면,
+    <br>EasyMoji가 대신 제출해드립니다!
+    <br> 대행료는 1%만 가져갈게요~</p>
+    <!--<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>-->
+  </div><!-- /.col-lg-4 -->
+</div><!-- /.row -->
+
+<!-- 어디서부터 시작하지? -->
+
+<br><br>
+<div id="Services"></div>
+<hr class="featurette-divider">
+
+<section class="features gray-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div><br>
+                    <h1>근데, 어떤 서비스를 제공하나요?</h1>
+                    <p>'EasyMoji'는 제안서 조건에 맞는 이모티콘 제작을 위한 다양한 서비스를 제공합니다.</p><br><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 features-text">
+                    <small>Background Removal</small>
+                    <h2>배경 제거</h2>
+                    <span class="fa-stack fa-4x pull-right">
+                      <i class="fa fa-eraser big-icon pull-right"></i>
+                    </span>
+                    <p>제안서 제출시 가장 중요한 요건은? 
+                      <br> 바로 투명한 배경의 .PNG파일입니다.
+                      어렵게 느꼈던 배경제거를 'EasyMoji'의 Pixlr와 Quick기능을 통해 
+                      빠르게 구현합니다.</p>
+                    <p><a class="btn btn-secondary pull-right" href="/guide/emoji_maker" role="button">배경제거 »</a></p>
+                </div>
+                <div class="col-lg-1 features-text">
+                </div>
+                <div class="col-lg-5 features-text">
+                    <small>Drawing</small>
+                    <h2>제안서 제출 대행</h2>
+                    <span class="fa-stack fa-4x pull-right">
+                      <i class="fa fa-paper-plane-o big-icon pull-right"></i>
+                    </span>
+                    <p>재미있게 이모티콘 만들고, 이름만 정해준 후에
+                    'EasyMoji'에게 뒷 일을 맡겨주세요!
+                      <br> 재미로 만들었어도 1%의 기대를 가지고
+                    제출 버튼만 눌러준다면 끝!</p>
+                    <p><a class="btn btn-secondary pull-right" href="/guide/proposal" role="button">제안서 »</a></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 features-text">
+                    <small>Drawing</small>
+                    <h2>마우스로 그림 그리기</h2>
+                    <span class="fa-stack fa-4x pull-right">
+                      <i class="fa fa-mouse-pointer big-icon pull-right"></i>
+                    </span>
+                    <p>최근에 'B급' 이모티콘이 큰 인기죠?
+                      <br>제 2의 '공주 이모티콘', '대충하는 답장' 등의 이모티콘을 만들고 싶다면,
+                      <br> Easymoji와 pixlr를 통해 함께해요.</p>
+                      <p><a class="btn btn-secondary pull-right" href="/guide/emoji_maker" role="button">그림 그리기 »</a></p>
+                </div>
+                <div class="col-lg-1 features-text">
+              </div>
+                <div class="col-lg-5 features-text">
+                    <small>Desinger Helper</small>
+                    <h2>디자이너 Helper</h2>
+                    <span class="fa-stack fa-4x pull-right">
+                      <i class="fa fa-wrench big-icon pull-right"></i>
+                    </span>
+                    <p>그림은 만족스럽게 그렸는데,
+                      <br>색칠을 잘 못하시나요?
+                      <br>색 보정이 만족스럽게 되지않나요?
+                      이러한 분들 위해 디자이너를 매칭해 드립니다.</p>
+                    <p><a class="btn btn-secondary pull-right" href="#" role="button">매칭하기 »</a></p>
+                </div>
+            </div>
+        </div><br><br><br>
+
+    </section>
+<!--서비스 소개-->
+
+
+<hr class="featurette-divider">
+
+<body>
+    <div class="row" id="Pricing">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div><br>
+                    <h1>이용 요금은 얼마죠?</h1>
+                    <p>For Free! (단, '디자이너 Helper' 서비스 이용시 요금 부과)</p><br><br>
+                </div>
+            </div>
+
+    <div class="container">
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Free</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>이모티콘 제작 기능,</li>
+              <li>갤러리 3개까지 이용 가능,</li>
+              <li>제출 대행 업무 이용 가능</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-outline-warning">Sign up for free</button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">+</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>이모티콘 제작 기능,</li>
+              <li>갤러리 5개까지 이용 가능,</li>
+              <li>제출 대행 업무 이용 가능</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-warning text-white">Get started</button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">++</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$30 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>모든 기능 이용 가능,</li>
+              <li>갤러리 무제한 이용 가능</li>
+              <li>디자이너의 무제한 피드백</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-warning text-white">Contact us</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+
+  
+</div><!-- /.container -->
+</body>
+
+
+<hr class="featurette-divider">
+
+<!-- /END THE FEATURETTES -->
+

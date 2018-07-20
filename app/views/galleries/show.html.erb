@@ -1,0 +1,425 @@
+  <div class="pg-tp">
+    <i class="ion-cube"></i>
+    <div id="container">
+      <div id="block">
+        <h4><%= @gallery.title %></h4>
+        <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" >   
+                    <span  class="popOver" data-toggle="tooltip" data-placement="top"> </span>     
+              </div>
+        </div>
+      </div>
+      <div id="block2">
+        <span style="font-size:10px;"><%= @gallery.description %></span>
+      </div>
+    </div>
+  </div>
+  <!-- Page Top -->
+  <div class="panel-content">
+    <div class="widget pad50-65 mb150">
+      <div class="btns-wrp">
+        <div class="btns-list">
+          <%= link_to '<i class="fa fa-plus"></i> NEW</a>'.html_safe, "/galleries/#{@gallery.id}/emojis/new", class: "brd-rd5 btn btn-outline-success new", style: "margin-bottom: 10px;padding-left: 20px;padding-right: 20px;padding-bottom: 10px;padding-top: 10px;" , remote: true %>
+
+          <div class="filebox"> 
+            <%= form_for :emoji, :url => emoji_upload_path, html: {:id => "emoji_uploader"} do |f| %>
+                <%= f.hidden_field(:gallery_id, :value => @gallery.id) %>
+
+                
+                <%= f.label :image, {:style => "padding-left: 20px; padding-right: 20px;padding-bottom: 10px;padding-top: 10px;"}, class: "brd-rd5 btn btn-outline-success" do %>
+                  <i class="fa fa-upload"></i> UPLOAD
+                <% end %>
+                <%= f.file_field :image, id: "emoji_image", accept: 'image/png,image/jpeg,image/jpg,image/JPG', :multiple => true %>
+                
+            <% end %>
+            
+
+          </div>
+          <button class="brd-rd5 btn btn-outline-success submit-proposal" style="float: right; margin-bottom: 10px;padding-left: 20px;padding-right: 20px;padding-bottom: 10px;padding-top: 10px;">제안서작성</button>
+        </div>
+        
+      </div>
+      
+      <div class="fltrs text-center">
+        <ul class="fltrs-lst" data-option-key="filter">
+          <li>
+            <a class="selected" href="#" title="" data-option-value="*">All</a>
+          </li>
+          <li>
+            <a href="#" title="" data-option-value=".edit"><span style="color:#868A08">수정 중</span></a>
+          </li>
+          <li>
+            <a href="#" title="" data-option-value=".finish"><span style="color:blue">완성</span></a>
+          </li>
+          <li>
+            <a href="#" title="" data-option-value=".draft"><span style="color:#00FF00">초안</span></a>
+          </li>
+          <li>
+            <a href="#" title="" data-option-value=".submit"><span style="color:#FF00FF">제출용</span></a>
+          </li>
+          <li>
+            <div class="btn-group">
+              <button class="btn btn-secondary btn-sm dropdown-toggle text-dark" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                정렬
+              </button>
+              <div class="dropdown-menu">
+                <%= link_to "최신 생성 순", gallery_path(@gallery, sort_level: "create_order"), id: "create_order", class: "dropdown-item" %>
+                <%= link_to "최근 작업 순", gallery_path(@gallery, sort_level: "work_order"), id: "work_order", class: "dropdown-item" %>
+                <%= link_to "초안/수정/완성 순", gallery_path(@gallery, sort_level: "progress_order"), id: "progress_order",class: "dropdown-item" %>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="gallery-wrp">
+          <div class="row mrg10">
+            <% @emojis.reverse.each do |emoji| %>
+              <% if emoji.malabi_id.nil? or emoji.malabi_secret.nil? %>
+                <div id="outside_<%= emoji.id %>" class="col-md-4 col-sm-6 col-lg-4 flt-itm my_emoji <%= emoji.status %>">
+                <% if emoji.status.eql?("draft") %>
+                    <div class="gallery-box border border-light" id="gallery_<%= emoji.id %>">
+                <% elsif emoji.status.eql?("edit") %>
+                    <div class="gallery-box border border-warning" id="gallery_<%= emoji.id %>">
+                <% elsif emoji.status.eql?("finish") %>
+                    <div class="gallery-box border border-primary" id="gallery_<%= emoji.id %>">
+                <% else %>
+                    <div class="gallery-box" id="gallery_<%= emoji.id %>" style="border:3px solid #FF00FF">
+                <% end %>
+                    <div class="wdgt-opt">
+                            <span class="wdgt-opt-btn">
+                                <i class="ion-android-more-vertical"></i>
+                            </span>
+                            <div class="wdgt-opt-lst brd-rd5">
+                                
+                                <% if emoji.status.eql?("draft") %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "edit"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% elsif emoji.status.eql?("edit") %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "finish"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% elsif emoji.status.eql?("finish") %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "submit"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% else %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "draft"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% end %>
+                                <%=link_to "Delete", gallery_emoji_path(gallery_id: @gallery.id, id: emoji.id), id: "destroy_#{emoji.id}", data: { confirm: "Are you sure?" }, method: "delete", class: "delt-wdgt", remote: true%>
+                                <a href="<%= emoji.image.url %>" download="<%=emoji.image.url %>" title="<%= emoji.concept %>">Download</a>
+                            </div>
+                    </div>
+                  <img src="<%= emoji.image.thumb_fill.url %>" alt="" style="width=190px; height=142px;">
+                  <div class="gallery-info">
+                    <span class="concept-<%= emoji.id%> text-white"><%= emoji.concept %></span>
+                    
+                    <button type="submit" data-id="<%=emoji.id %>" id="<%= emoji.id%>_concept" class="edit-concept" style="background-color:transparent;">
+                    <i class="fa fa-pencil" style="color:white"></i></button><br/>
+                    <span class="cate">
+                      <% if emoji.image.thumb_fix.present? %>
+                        <%= link_to "Pixlr", "http://www.pixlr.com/editor?icon=https://s3.ap-northeast-2.amazonaws.com/likelion2/uploads/post/image_path/easymoji.png&referrer=Easymoji&target=https://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}/emojis/#{emoji.id}/save&image=https://easymoji-jwhong1991.c9users.io#{emoji.image.thumb_fix.url}&redirect=false&exit=http://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}&title=#{emoji.concept}&type=png&locktype=png&maxwidth=360&redirect=false&maxheight=360" %>,
+                      <% else %>
+                        <%= link_to "Pixlr", "http://www.pixlr.com/editor?icon=https://s3.ap-northeast-2.amazonaws.com/likelion2/uploads/post/image_path/easymoji.png&referrer=Easymoji&target=https://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}/emojis/#{emoji.id}/save&image=https://easymoji-jwhong1991.c9users.io#{emoji.image}&redirect=false&exit=http://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}&title=#{emoji.concept}&type=png&locktype=png&maxwidth=360&redirect=false&maxheight=360" %>,
+                      <% end %>
+                      <a href="#" class="brp" id="<%= emoji.id %>">배경삭제</a>
+                    </span>
+                    <span class="lightbox preview" id="<%= emoji.id %>" style="cursor: pointer;">
+                      <% if emoji.image.thumb_fix.present? %>
+                        <a class="click-want" title="" id="<%=emoji.image.thumb_fix.url %>">
+                      <% else %>
+                        <a class="click-want" title="" id="<%=emoji.image.url %>">
+                      <% end %>
+                        <i class="fa fa-search"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <% else %>
+                <div id="outside_<%= emoji.id %>" class="col-md-4 col-sm-6 col-lg-4 flt-itm my_emoji <%= emoji.status %>">
+                <% if emoji.status.eql?("draft") %>
+                    <div class="gallery-box border border-light" id="gallery_<%= emoji.id %>">
+                <% elsif emoji.status.eql?("edit") %>
+                    <div class="gallery-box border border-warning" id="gallery_<%= emoji.id %>">
+                <% elsif emoji.status.eql?("finish") %>
+                    <div class="gallery-box border border-primary" id="gallery_<%= emoji.id %>">
+                <% else %>
+                    <div class="gallery-box" id="gallery_<%= emoji.id %>" style="border:3px solid #FF00FF">
+                <% end %>
+                    <div class="wdgt-opt">
+                            <span class="wdgt-opt-btn">
+                                <i class="ion-android-more-vertical"></i>
+                            </span>
+                            <div class="wdgt-opt-lst brd-rd5">
+                                
+                                <% if emoji.status.eql?("draft") %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "edit"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% elsif emoji.status.eql?("edit") %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "finish"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% elsif emoji.status.eql?("finish") %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "submit"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", remote: true %>
+                                <% else %>
+                                  <%= link_to "Convert", emoji_state_path(emoji_id: emoji.id, state: "draft"), method: "patch", id: "state_#{emoji.id}", class: "convert-state", style: "border-color: #FF00FF", remote: true %>
+                                <% end %>
+                                <%=link_to "Delete", gallery_emoji_path(gallery_id: @gallery.id, id: emoji.id), id: "destroy_#{emoji.id}", data: { confirm: "Are you sure?" }, method: "delete", class: "delt-wdgt", remote: true%>
+                                <a href="<%= emoji.image.url %>" download="<%=emoji.image.url %>" title="<%= emoji.concept %>">Download</a>
+                            </div>
+                    </div>
+                  <img src="<%= emoji.image.thumb_fill.url %>" alt="" style="width=190px; height=142px;">
+                  <div class="gallery-info">
+                    <span class="concept-<%= emoji.id%> text-white"><%= emoji.concept %></span>
+                    
+                    <button type="submit" data-id="<%=emoji.id %>" id="<%= emoji.id%>_concept" class="edit-concept" style="background-color:transparent;">
+                    <i class="fa fa-pencil" style="color:white"></i></button><br/>
+                    <span class="cate">
+                      <% if emoji.image.thumb_fix.present? %>
+                        <%= link_to "Pixlr", "http://www.pixlr.com/editor?icon=https://s3.ap-northeast-2.amazonaws.com/likelion2/uploads/post/image_path/easymoji.png&referrer=Easymoji&target=https://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}/emojis/#{emoji.id}/save&image=https://easymoji-jwhong1991.c9users.io#{emoji.image.thumb_fix.url}&redirect=false&exit=http://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}&title=#{emoji.concept}&type=png&locktype=png&maxwidth=360&redirect=false&maxheight=360" %>,
+                      <% else %>
+                        <%= link_to "Pixlr", "http://www.pixlr.com/editor?icon=https://s3.ap-northeast-2.amazonaws.com/likelion2/uploads/post/image_path/easymoji.png&referrer=Easymoji&target=https://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}/emojis/#{emoji.id}/save&image=https://easymoji-jwhong1991.c9users.io#{emoji.image}&redirect=false&exit=http://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}&title=#{emoji.concept}&type=png&locktype=png&maxwidth=360&redirect=false&maxheight=360" %>,
+                      <% end %>
+                      <a href="https://api.malabi.co/v1/hostedEdit.html?id=<%= emoji.malabi_id %>&secret=<%= emoji.malabi_secret %>&apiId=<%= ENV['MALABI_API_ID']%>&callback=<%= URI.encode("https://easymoji-jwhong1991.c9users.io/galleries/#{@gallery.id}/emojis/#{emoji.id}/malabi_callback") %>" target="_blank">배경조정</a>
+                    </span>
+                    <span class="lightbox preview" id="<%= emoji.id %>" style="cursor: pointer;">
+                      <% if emoji.image.thumb_fix.present? %>
+                        <a class="click-want" title="" id="<%=emoji.image.thumb_fix.url %>">
+                      <% else %>
+                        <a class="click-want" title="" id="<%=emoji.image.url %>">
+                      <% end %>
+                        <i class="fa fa-search"></i>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            <% end %>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Panel Content -->
+  
+  <% content_for 'javascript_content' do %>
+  
+  <style>
+  .border {
+    border: 3px solid #dee2e6 !important;
+  }
+  .border-primary {
+    border-color: #007bff !important;
+  }
+  .border-warning {
+    border-color: #ffc107 !important;
+  }
+  .border-light {
+    border-color: #f8f9fa !important;
+  }
+  /*.filebox label { */
+  /*  display: inline-block; */
+  /*  padding: .5em .75em; */
+  /*  color: #999; */
+  /*  font-size: inherit; */
+  /*  line-height: normal; */
+  /*  vertical-align: middle; */
+  /*  background-color: #fdfdfd; */
+  /*  cursor: pointer; */
+  /*  border: 1px */
+  /*  solid #ebebeb; */
+  /*  border-bottom-color: #e2e2e2; */
+  /*  border-radius: .25em; } */
+  .filebox input[type="file"] {/* 파일 필드 숨기기  */
+    position: absolute; 
+    width: 1px; 
+    height: 1px; 
+    padding: 0; 
+    margin: -1px; 
+    overflow: hidden; 
+    clip:rect(0,0,0,0); 
+    border: 0; }
+  .tooltip{ 
+    position:relative;
+    float:right;
+  }
+  .tooltip > .tooltip-inner {background-color: #eebf3f; padding:3px 10px; color:rgb(23,44,66); font-weight:bold; font-size:12px;}
+  .popOver + .tooltip > .tooltip-arrow {	border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #eebf3f;}
+  .progress{
+    border-radius:0;
+    overflow:visible;
+  }
+  .progress-bar{
+     background:rgb(20, 88, 216); 
+    -webkit-transition: width 1.5s ease-in-out;
+    transition: width 1.5s ease-in-out;
+  }
+  #container { 
+      width:1000px; 
+      height:100px; 
+      vertical-align: top;
+      display:table-cell;
+  }
+  #block2 { 
+      margin: auto;
+      width: 50%;
+      float: left;
+      padding-top: 5px;
+      display:inline-block;
+  }
+  #block { 
+      margin: auto;
+      width: 30%;
+      float: left;
+      padding-right: 30px;
+      display:inline-block;
+  }
+
+  </style>
+  
+  
+    
+  <script>
+    $(document).on('ready',function(){
+
+      $(".spinner").hide();
+      
+      // malabi.init({
+      //   'apiId': ""
+      // });
+      
+      // var onSaveWithResult = function (image) {
+        
+      // };
+      
+      // $(document).on('click', '.image_process', function(){
+      //   var image_id = $(this).data('id');
+      //   console.log(image_id);
+        
+      //   var image_secret = $(this).data('secret');
+      //   console.log(image_secret);
+        
+      //   if((typeof image_id === 'undefined' || !image_id) || (typeof image_secret === 'undefined' || !image_secret)){
+      //     alert("배경 조정할 수 없는 이미지입니다.");
+      //     return false;
+      //   } else {
+      //     malabi.edit(image_id, image_secret, onSaveWithResult);
+      //   }
+      // })
+      
+      
+      $(".brp").on('click', function(){
+        $(".spinner").show();
+        var id = $(this).attr('id');
+        var gallery_id = "<%= @gallery.id %>"
+        console.log(id);
+        $.ajax({
+          url: "/galleries/" + gallery_id + "/emojis/" + id +"/background_remove",
+          method: "post"
+        });
+      });
+      
+      $(document).on('change', '.dropdown-item', function(){
+        var order_criteria = $(this).attr('id');
+        var gallery_id = "<%= @gallery.id %>"
+        $.ajax({
+          url: "/gallery/" + gallery_id + "/sort",
+          method: "get",
+          data: {
+            level: order_criteria
+          }
+        });
+      });
+      
+      
+      $(document).on('click','.edit-concept', function(){  // 컨셉 수정버튼
+        var emoji_id = $(this).data('id');
+        var edit_concept = $(`.concept-${emoji_id}`);
+        var concept = edit_concept.text();
+        console.log(concept);
+        edit_concept.html(`
+        <input type="text" value="${concept}" class="edit-concept-${emoji_id} text-white update_concept_input" style="background-color:transparent;"> `);
+        $(this).removeClass("edit-concept").addClass("update-concept");
+        $(this).children().removeClass("fa-pencil").addClass("fa-check");   
+      });
+      
+      $(document).on('click','.update-concept', function(){   //컨셉 수정후 업뎃
+      
+        var gallery_id = "<%= @gallery.id %>"
+        var emoji_id = $(this).data('id');
+        var concept_form = $(`.edit-concept-${emoji_id}`);
+        $.ajax({
+          url: '/update_concept',
+          method: 'patch',
+          data: {
+            gallery_id: gallery_id,
+            id: emoji_id,
+            concept: concept_form.val()
+          }
+        })
+      });
+      
+      $(document).on('keypress', '.update_concept_input', function(e){
+        
+        if(e.which === 13){
+          $(this).prop("disabled", true);
+          var gallery_id = "<%= @gallery.id %>"
+        var emoji_id = $(this).parent().siblings().first().data('id');
+        var concept_form = $(`.edit-concept-${emoji_id}`);
+        $.ajax({
+          url: '/update_concept',
+          method: 'patch',
+          data: {
+            gallery_id: gallery_id,
+            id: emoji_id,
+            concept: concept_form.val()
+          }
+        })
+        }
+      })
+      
+      $(document).on('change','#emoji_image', function(){
+        $(".spinner").show();
+    	  $('#emoji_uploader').submit();
+        //$(this).submit();
+        
+        // var image_path = $(this).val();
+        // $.ajax({
+        //   url: '/home/create_upload',
+        //   method: 'post',
+        //   data:{
+        //     image_path: image_path
+        //   }
+        // })
+      });
+       
+      $(document).on('click','.preview', function(){
+       var id = $(this).attr('id');
+       console.log(id);
+       $.ajax({
+        url: '/emoji/preview',
+        method: 'post',
+        data:{
+          id: id,
+        }
+       });
+   });
+    $(document).on('click','.submit-proposal', function(){
+          var count = document.getElementsByClassName("submit").length;
+          if (count==24){
+            
+          } else{
+            alert("제출용 24장을 채워주세요!");
+          }
+    });
+    var count = document.getElementsByClassName("submit").length;
+    var percentage = Math.ceil((100/24)*count);
+    
+    
+    $(".progress-bar").each(function(){
+
+      var width = $(this).width(percentage + '%');
+      
+      var e= $(this).children();
+      e.attr("data-original-title",percentage);
+      $(this).text(count + '/24');
+    });
+       
+  })
+  </script>
+  
+  <% end %>

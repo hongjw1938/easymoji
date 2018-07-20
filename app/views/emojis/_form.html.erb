@@ -1,0 +1,17 @@
+<%= form_for(emoji) do |f| %>
+  <% if emoji.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(emoji.errors.count, "error") %> prohibited this emoji from being saved:</h2>
+
+      <ul>
+      <% emoji.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Template</title>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+  </head>
+
+  <body class="expand-data panel-data">
+    
+      <%= render 'shared/preload' %>
+      <%= render 'shared/flash_messages' %>
+      <%= render 'shared/nav' %>
+      <%= render 'shared/sidebar' %>
+      <%= render 'shared/option_panel' %>
+      <%= yield %>
+      <!--<script src="https://api.malabi.co/v1/Malabi.js"></script>-->
+      <%= yield 'javascript_content' %>
+  </body>
+</html>

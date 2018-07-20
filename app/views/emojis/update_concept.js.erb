@@ -1,0 +1,4 @@
+$("#update_concept").prop("disabled", false);
+$(".concept-<%= @emoji.id %>").text("<%= @emoji.concept %>");
+$("#<%= @emoji.id %>_concept").removeClass("update-concept").addClass("edit-concept");
+$("#<%= @emoji.id %>_concept").children().removeClass("fa-check").addClass("fa-pencil");

@@ -1,4 +1,4 @@
-### Easymoji 배포판
+### Easymoji 배포판(수정중)
 ## 0. 초기설정
 * template
     - `git clone https://github.com/hongjw1991/fuzen_template.git`
